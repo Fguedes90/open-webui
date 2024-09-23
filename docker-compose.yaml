@@ -18,12 +18,11 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
-      ENABLE_RAG_WEB_SEARCH: "True"
+      ENABLE_RAG_WEB_SEARCH: true
       RAG_WEB_SEARCH_ENGINE: "searxng"
-      RAG_WEB_SEARCH_RESULT_COUNT: "3"
-      RAG_WEB_SEARCH_CONCURRENT_REQUESTS: "10"
+      RAG_WEB_SEARCH_RESULT_COUNT: 3
+      RAG_WEB_SEARCH_CONCURRENT_REQUESTS: 10
       SEARXNG_QUERY_URL: "http://searxng:8080/search?q=<query>"
-      DATA_DIR: /app/backend/data
       USE_OLLAMA: ${USE_OLLAMA:-false}
       USE_CUDA: ${USE_CUDA:-false}
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-/ollama}
@@ -32,9 +31,6 @@ services:
       ENABLE_OPENAI_API: ${ENABLE_OPENAI_API:-false}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL:-https://api.openai.com}
-      ENABLE_SEARCH_QUERY: ${ENABLE_SEARCH_QUERY:-false}
-      SEARCH_ENGINE: ${SEARCH_ENGINE:-searxng}
-      SEARCH_ENGINE_URL: ${SEARCH_ENGINE_URL:-http://searxng.local/search?q=<query>}
       NODE_OPTIONS: --max-old-space-size=4096
     extra_hosts:
       - host.docker.internal:host-gateway
