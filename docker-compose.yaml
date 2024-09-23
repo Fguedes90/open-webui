@@ -19,6 +19,7 @@ services:
       - 'ENABLE_SEARCH_QUERY=${ENABLE_SEARCH_QUERY:-false}'
       - 'SEARCH_ENGINE=${SEARCH_ENGINE:-searxng}'
       - 'SEARCH_ENGINE_URL=${SEARCH_ENGINE_URL:-http://searxng.local/search?q=<query>}'
+      - 'NODE_OPTIONS="--max-old-space-size=4096"'
     extra_hosts:
       - host.docker.internal:host-gateway
     restart: unless-stopped
