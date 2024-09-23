@@ -7,6 +7,8 @@ services:
     volumes:
       - ./searxng:/etc/searxng
     restart: always
+    networks:
+      - open-webui
   open-webui:
     build:
       context: .
@@ -35,6 +37,9 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
 
+    networks:
+      - open-webui
+
     deploy:
       resources:
         limits:
@@ -44,3 +49,6 @@ services:
 
 volumes:
   open-webui: {}
+
+networks:
+  open-webui:
