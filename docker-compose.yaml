@@ -10,6 +10,8 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
+      - USE_OLLAMA=${USE_OLLAMA:-false}
+      - USE_CUDA=${USE_CUDA:-false}
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-/ollama}
       - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY:-Sup3r_S3cr3t_K3y}
       - DATABASE_URL=${DATABASE_URL:-sqlite:///${DATA_DIR}/webui.db}

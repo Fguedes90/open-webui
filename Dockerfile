@@ -23,6 +23,10 @@ ARG BUILD_HASH
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+
+# Set Node.js memory limit to 4GB
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 RUN npm ci
 
 COPY . .
