@@ -10,6 +10,7 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
+      - DATA_DIR=/app/backend/data
       - USE_OLLAMA=${USE_OLLAMA:-false}
       - USE_CUDA=${USE_CUDA:-false}
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-/ollama}
