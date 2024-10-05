@@ -2,7 +2,7 @@
 	import { SvelteFlowProvider } from '@xyflow/svelte';
 	import { slide } from 'svelte/transition';
 
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 	import { mobile, showControls, showCallOverlay, showOverview } from '$lib/stores';
 
 	import Modal from '../common/Modal.svelte';
@@ -35,11 +35,23 @@
 		// listen to resize 1024px
 		const mediaQuery = window.matchMedia('(min-width: 1024px)');
 
-		const handleMediaQuery = (e) => {
+		const handleMediaQuery = async (e) => {
 			if (e.matches) {
 				largeScreen = true;
+
+				if ($showCallOverlay) {
+					showCallOverlay.set(false);
+					await tick();
+					showCallOverlay.set(true);
+				}
 			} else {
 				largeScreen = false;
+
+				if ($showCallOverlay) {
+					showCallOverlay.set(false);
+					await tick();
+					showCallOverlay.set(true);
+				}
 				pane = null;
 			}
 		};
@@ -115,9 +127,9 @@
 		{/if}
 	{:else}
 		<!-- if $showControls -->
-		<PaneResizer class="relative flex w-2 items-center justify-center bg-background">
+		<PaneResizer class="relative flex w-2 items-center justify-center bg-background group">
 			<div class="z-10 flex h-7 w-5 items-center justify-center rounded-sm">
-				<EllipsisVertical />
+				<EllipsisVertical className="size-4 invisible group-hover:visible" />
 			</div>
 		</PaneResizer>
 		<Pane
@@ -128,7 +140,6 @@
 					: 30
 				: 0}
 			onResize={(size) => {
-				console.log(size);
 				if (size === 0) {
 					showControls.set(false);
 				} else {
@@ -164,6 +175,12 @@
 							<Overview
 								{history}
 								on:nodeclick={(e) => {
+									if (e.detail.node.data.message.favorite) {
+										history.messages[e.detail.node.data.message.id].favorite = true;
+									} else {
+										history.messages[e.detail.node.data.message.id].favorite = null;
+									}
+
 									showMessage(e.detail.node.data.message);
 								}}
 								on:close={() => {

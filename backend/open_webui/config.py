@@ -56,9 +56,6 @@ def run_migrations():
         print(f"Error: {e}")
 
 
-run_migrations()
-
-
 class Config(Base):
     __tablename__ = "config"
 
@@ -84,6 +81,12 @@ def save_to_db(data):
             existing_config.data = data
             existing_config.updated_at = datetime.now()
             db.add(existing_config)
+        db.commit()
+
+
+def reset_config():
+    with get_db() as db:
+        db.query(Config).delete()
         db.commit()
 
 
@@ -515,15 +518,6 @@ Path(UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
 CACHE_DIR = f"{DATA_DIR}/cache"
 Path(CACHE_DIR).mkdir(parents=True, exist_ok=True)
 
-
-####################################
-# Docs DIR
-####################################
-
-DOCS_DIR = os.getenv("DOCS_DIR", f"{DATA_DIR}/docs")
-Path(DOCS_DIR).mkdir(parents=True, exist_ok=True)
-
-
 ####################################
 # Tools DIR
 ####################################
@@ -555,16 +549,6 @@ OLLAMA_API_BASE_URL = os.environ.get(
 )
 
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "")
-AIOHTTP_CLIENT_TIMEOUT = os.environ.get("AIOHTTP_CLIENT_TIMEOUT", "")
-
-if AIOHTTP_CLIENT_TIMEOUT == "":
-    AIOHTTP_CLIENT_TIMEOUT = None
-else:
-    try:
-        AIOHTTP_CLIENT_TIMEOUT = int(AIOHTTP_CLIENT_TIMEOUT)
-    except Exception:
-        AIOHTTP_CLIENT_TIMEOUT = 300
-
 
 K8S_FLAG = os.environ.get("K8S_FLAG", "")
 USE_OLLAMA_DOCKER = os.environ.get("USE_OLLAMA_DOCKER", "false")
@@ -915,7 +899,7 @@ CHROMA_HTTP_SSL = os.environ.get("CHROMA_HTTP_SSL", "false").lower() == "true"
 MILVUS_URI = os.environ.get("MILVUS_URI", f"{DATA_DIR}/vector_db/milvus.db")
 
 ####################################
-# RAG
+# Information Retrieval (RAG)
 ####################################
 
 # RAG Content Extraction
