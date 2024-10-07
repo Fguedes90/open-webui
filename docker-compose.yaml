@@ -22,12 +22,12 @@ services:
       RAG_WEB_SEARCH_ENGINE: "searxng"
       RAG_WEB_SEARCH_RESULT_COUNT: 3
       RAG_WEB_SEARCH_CONCURRENT_REQUESTS: 10
-      SEARXNG_QUERY_URL: "http://searxng:8080/search?q=<query>"
+      SEARXNG_QUERY_URL: ${SEARXNG_QUERY_URL}
       USE_OLLAMA: ${USE_OLLAMA:-false}
       USE_CUDA: ${USE_CUDA:-false}
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-/ollama}
       WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:-Sup3r_S3cr3t_K3y}
-      # DATABASE_URL: ${DATABASE_URL:-sqlite:///${DATA_DIR}/webui.db}
+      DATABASE_URL: ${DATABASE_URL}
       ENABLE_OPENAI_API: ${ENABLE_OPENAI_API:-false}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL:-https://api.openai.com}
