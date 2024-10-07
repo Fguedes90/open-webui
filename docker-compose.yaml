@@ -16,6 +16,7 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
+      WEBUI_URL: "https://chat.francisgg.dev"
       ENABLE_RAG_WEB_SEARCH: true
       RAG_WEB_SEARCH_ENGINE: "searxng"
       RAG_WEB_SEARCH_RESULT_COUNT: 3
