@@ -6,14 +6,10 @@ services:
       SEARXNG_SECRET_KEY: ${SEARXNG_SECRET_KEY}
     volumes:
       - ./searxng:/etc/searxng
-    restart: always
-    networks:
-      - open-webui
+    restart: unless-stopped
   open-webui:
     build:
       context: .
-      args:
-        OLLAMA_BASE_URL: '/ollama'
       dockerfile: Dockerfile
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
     container_name: open-webui
@@ -34,12 +30,6 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL:-https://api.openai.com}
       NODE_OPTIONS: --max-old-space-size=4096
-    extra_hosts:
-      - host.docker.internal:host-gateway
-
-    networks:
-      - open-webui
-
     deploy:
       resources:
         limits:
@@ -49,6 +39,3 @@ services:
 
 volumes:
   open-webui: {}
-
-networks:
-  open-webui:
