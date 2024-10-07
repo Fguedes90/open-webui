@@ -4,6 +4,7 @@ services:
     container_name: searxng
     environment:
       SEARXNG_SECRET_KEY: ${SEARXNG_SECRET_KEY}
+      BASE_URL: ${SEARXNG_BASE_URL}
     volumes:
       - ./searxng:/etc/searxng
     restart: unless-stopped
@@ -16,7 +17,7 @@ services:
     volumes:
       - open-webui:/app/backend/data
     environment:
-      WEBUI_URL: "https://chat.francisgg.dev"
+      WEBUI_URL: ${WEBUI_URL}
       ENABLE_RAG_WEB_SEARCH: true
       RAG_WEB_SEARCH_ENGINE: "searxng"
       RAG_WEB_SEARCH_RESULT_COUNT: 3
